@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Lykke.Common.Log;
 using Lykke.Service.History.Contracts.Orders;
 using Lykke.Service.History.Core.Domain.Enums;
 using Lykke.Service.History.Core.Domain.Orders;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Lykke.Service.History.Controllers
@@ -17,10 +20,12 @@ namespace Lykke.Service.History.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrdersRepository _ordersRepository;
+        private readonly ILogFactory _logFactory;
 
-        public OrdersController(IOrdersRepository ordersRepository)
+        public OrdersController(IOrdersRepository ordersRepository, ILogFactory logFactory)
         {
             _ordersRepository = ordersRepository;
+            _logFactory = logFactory;
         }
 
         /// <summary>
@@ -129,6 +134,22 @@ namespace Lykke.Service.History.Controllers
                 limit);
 
             return Mapper.Map<IReadOnlyList<OrderModel>>(data);
+        }
+
+
+        /// <summary>
+        /// Start data fixing.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("replay")]
+        [SwaggerOperation("Replay")]
+        [ProducesResponseType(typeof(OrderModel), (int)HttpStatusCode.OK)]
+        public async Task Replay(string meConnectionString)
+        {
+            var fixer = new Replay.OrdersStateFixer(_logFactory, meConnectionString, _ordersRepository);
+            var task = fixer.FixClosedOrdersState();
+
+            Task.Run(async () => await task);
         }
     }
 }
