@@ -7,6 +7,7 @@ using AutoMapper;
 using Lykke.Service.History.Contracts.History;
 using Lykke.Service.History.Core.Domain.History;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using HistoryType = Lykke.Service.History.Core.Domain.Enums.HistoryType;
 
