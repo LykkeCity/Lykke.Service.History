@@ -70,6 +70,7 @@ namespace Lykke.Service.History.Workflow.ExecutionProcessing
 
         protected override async Task ProcessBatch(IList<CustomQueueItem<IEnumerable<Order>>> batch)
         {
+            var operation = TelemetryHelper.InitTelemetryOperation("Processing orders from ExecutionProcessedEvent", Guid.NewGuid().ToString());
             var orders = batch.SelectMany(x => x.Value).ToList();
 
             await _ordersRepository.UpsertBulkAsync(orders);
@@ -80,6 +81,8 @@ namespace Lykke.Service.History.Workflow.ExecutionProcessing
 
             foreach (var tradesBatch in batched)
                 await _historyRecordsRepository.InsertBulkAsync(tradesBatch);
+
+            TelemetryHelper.SubmitOperationResult(operation);
         }
     }
 }
