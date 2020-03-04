@@ -76,9 +76,11 @@ namespace Lykke.Service.History.Workflow.ExecutionProcessing
             return OnMessageReceived;
         }
 
-        protected override Task ProcessBatch(IList<CustomQueueItem<OrderEvent>> batch)
+        protected override async Task ProcessBatch(IList<CustomQueueItem<OrderEvent>> batch)
         {
-            return _historyRecordsRepository.InsertBulkAsync(batch.Select(x => x.Value));
+            var operation = TelemetryHelper.InitTelemetryOperation($"Processing OrderEvents", Guid.NewGuid().ToString());
+            await _historyRecordsRepository.InsertBulkAsync(batch.Select(x => x.Value));
+            TelemetryHelper.SubmitOperationResult(operation);
         }
     }
 }
