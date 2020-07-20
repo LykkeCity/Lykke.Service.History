@@ -38,7 +38,7 @@ namespace Lykke.Service.History.Tests.Init
         {
             Mapper.Initialize(cfg =>
             {
-                cfg.AddProfiles(typeof(ServiceProfile));
+                cfg.AddProfiles(typeof(Lykke.Job.History.AutoMapper.ServiceProfile));
                 cfg.AddProfiles(typeof(RepositoryProfile));
             });
         }
@@ -74,7 +74,9 @@ namespace Lykke.Service.History.Tests.Init
                         {
                             {"InMemory", new TransportInfo("none", "none", "none", null, "InMemory")}
                         }));
-                    return CreateEngine(ctx, messagingEngine, logFactory);
+                    var cqrsEngine = CreateEngine(ctx, messagingEngine, logFactory);
+                    cqrsEngine.StartAll();
+                    return cqrsEngine;
                 })
                 .As<ICqrsEngine>()
                 .AutoActivate()
