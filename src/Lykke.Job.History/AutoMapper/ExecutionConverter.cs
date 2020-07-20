@@ -3,7 +3,7 @@ using AutoMapper;
 using Lykke.Service.History.Core.Domain.Orders;
 using Lykke.Service.PostProcessing.Contracts.Cqrs.Events;
 
-namespace Lykke.Service.History.AutoMapper
+namespace Lykke.Job.History.AutoMapper
 {
     public class ExecutionConverter : ITypeConverter<ExecutionProcessedEvent, IEnumerable<Order>>
     {

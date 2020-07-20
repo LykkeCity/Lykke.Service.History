@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Common.Log;
 using Lykke.Common.Log;
@@ -9,7 +8,7 @@ using Lykke.Service.History.Core;
 using Lykke.Service.History.Core.Domain.History;
 using MessagePack;
 
-namespace Lykke.Service.History.Workflow.Handlers
+namespace Lykke.Job.History.Workflow.Handlers
 {
     public class EthereumCommandHandler
     {

@@ -6,7 +6,7 @@ using Lykke.Service.History.PostgresRepositories;
 using Lykke.Service.History.PostgresRepositories.Repositories;
 using Lykke.SettingsReader;
 
-namespace Lykke.Service.History.Modules
+namespace Lykke.Job.History.Modules
 {
     public class DbModule : Module
     {

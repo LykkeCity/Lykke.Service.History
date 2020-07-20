@@ -7,7 +7,7 @@ using Lykke.Cqrs;
 using Lykke.Service.History.Core.Domain.History;
 using Lykke.Service.PostProcessing.Contracts.Cqrs.Events;
 
-namespace Lykke.Service.History.Workflow.Projections
+namespace Lykke.Job.History.Workflow.Projections
 {
     public class CashTransferProjection
     {

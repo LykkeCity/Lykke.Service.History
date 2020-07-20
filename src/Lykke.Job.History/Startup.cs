@@ -1,21 +1,21 @@
 ﻿using System;
 using AutoMapper;
 using JetBrains.Annotations;
+using Lykke.Job.History.AutoMapper;
 using Lykke.Sdk;
-using Lykke.Service.History.AutoMapper;
 using Lykke.Service.History.Core.Settings;
 using Lykke.Service.History.PostgresRepositories.Mappings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lykke.Service.History
+namespace Lykke.Job.History
 {
     [UsedImplicitly]
     public class Startup
     {
         private readonly LykkeSwaggerOptions _swaggerOptions = new LykkeSwaggerOptions
         {
-            ApiTitle = "HistoryRecord API",
+            ApiTitle = "History Job",
             ApiVersion = "v1"
         };
 
@@ -34,11 +34,11 @@ namespace Lykke.Service.History
 
                 options.Logs = logs =>
                 {
-                    logs.AzureTableName = "HistoryLog";
+                    logs.AzureTableName = "HistoryJobLog";
                     logs.AzureTableConnectionStringResolver = settings => settings.HistoryService.Db.LogsConnString;
 
                     // TODO: You could add extended logging configuration here:
-                    /* 
+                    /*
                     logs.Extended = extendedLogs =>
                     {
                         // For example, you could add additional slack channel like this:

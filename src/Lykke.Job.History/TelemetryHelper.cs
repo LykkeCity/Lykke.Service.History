@@ -3,7 +3,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
 
-namespace Lykke.Service.History
+namespace Lykke.Job.History
 {
     public class TelemetryHelper
     {

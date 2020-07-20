@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Autofac;
 using Lykke.Bitcoin.Contracts;
 using Lykke.Bitcoin.Contracts.Events;
 using Lykke.Common.Log;
 using Lykke.Cqrs;
 using Lykke.Cqrs.Configuration;
+using Lykke.Cqrs.Middleware.Logging;
 using Lykke.Job.BlockchainCashinDetector.Contract;
 using Lykke.Job.BlockchainCashoutProcessor.Contract;
+using Lykke.Job.History.Workflow.ExecutionProcessing;
+using Lykke.Job.History.Workflow.Handlers;
+using Lykke.Job.History.Workflow.Projections;
 using Lykke.Messaging;
 using Lykke.Messaging.Contract;
 using Lykke.Messaging.RabbitMq;
@@ -15,16 +20,13 @@ using Lykke.Sdk;
 using Lykke.Service.History.Contracts.Cqrs;
 using Lykke.Service.History.Contracts.Cqrs.Commands;
 using Lykke.Service.History.Contracts.Cqrs.Events;
-using Lykke.Service.History.Settings;
-using Lykke.Service.History.Workflow.ExecutionProcessing;
-using Lykke.Service.History.Workflow.Handlers;
-using Lykke.Service.History.Workflow.Projections;
+using Lykke.Service.History.Core.Settings;
 using Lykke.Service.PostProcessing.Contracts.Cqrs;
 using Lykke.Service.PostProcessing.Contracts.Cqrs.Events;
 using Lykke.SettingsReader;
 using RabbitMQ.Client;
 
-namespace Lykke.Service.History.Modules
+namespace Lykke.Job.History.Modules
 {
     public class CqrsModule : Module
     {
@@ -42,7 +44,7 @@ namespace Lykke.Service.History.Modules
 
             var rabbitMqSettings = new ConnectionFactory
             {
-                Uri = _settings.Cqrs.RabbitConnString
+                Uri = new Uri(_settings.Cqrs.RabbitConnString)
             };
             var rabbitMqEndpoint = rabbitMqSettings.Endpoint.ToString();
 
@@ -85,7 +87,9 @@ namespace Lykke.Service.History.Modules
                                 }
                             }),
                         new RabbitMqTransportFactory(logFactory));
-                    return CreateEngine(ctx, messagingEngine, logFactory);
+                    var cqrsEngine = CreateEngine(ctx, messagingEngine, logFactory);
+                    cqrsEngine.StartPublishers();
+                    return cqrsEngine;
                 })
                 .As<ICqrsEngine>()
                 .AutoActivate()
@@ -116,6 +120,9 @@ namespace Lykke.Service.History.Modules
                 new DefaultEndpointProvider(),
                 true,
                 Register.DefaultEndpointResolver(sagasProtobufEndpointResolver),
+
+                Register.EventInterceptors(new DefaultEventLoggingInterceptor(ctx.Resolve<ILogFactory>())),
+
                 Register.BoundedContext(HistoryBoundedContext.Name)
                     .ListeningEvents(typeof(CashInProcessedEvent))
                     .From(PostProcessingBoundedContext.Name)

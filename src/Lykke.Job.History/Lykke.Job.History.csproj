@@ -3,16 +3,14 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <OutputType>Exe</OutputType>
     <Version>1.0.1</Version>
-    <AssemblyName>Lykke.Service.History</AssemblyName>
-    <RootNamespace>Lykke.Service.History</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.0\Lykke.Service.History.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.0\Lykke.Job.History.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.0\Lykke.Service.History.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.0\Lykke.Job.History.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -40,7 +38,6 @@
     <ProjectReference Include="..\..\client\Lykke.Service.History.Contracts\Lykke.Service.History.Contracts.csproj" />
     <ProjectReference Include="..\Lykke.Service.History.PostgresRepositories\Lykke.Service.History.PostgresRepositories.csproj" />
     <ProjectReference Include="..\Lykke.Service.History.Core\Lykke.Service.History.Core.csproj" />
-    <ProjectReference Include="..\Lykke.Service.History.Replay\Lykke.Service.History.Replay.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

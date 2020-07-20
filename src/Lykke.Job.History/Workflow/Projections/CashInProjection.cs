@@ -6,25 +6,25 @@ using Lykke.Cqrs;
 using Lykke.Service.History.Core.Domain.History;
 using Lykke.Service.PostProcessing.Contracts.Cqrs.Events;
 
-namespace Lykke.Service.History.Workflow.Projections
+namespace Lykke.Job.History.Workflow.Projections
 {
-    public class CashOutProjection
+    public class CashInProjection
     {
         private readonly IHistoryRecordsRepository _historyRecordsRepository;
         private readonly ILog _logger;
 
-        public CashOutProjection(IHistoryRecordsRepository historyRecordsRepository, ILogFactory logFactory)
+        public CashInProjection(IHistoryRecordsRepository historyRecordsRepository, ILogFactory logFactory)
         {
             _historyRecordsRepository = historyRecordsRepository;
             _logger = logFactory.CreateLog(this);
         }
 
-        public async Task<CommandHandlingResult> Handle(CashOutProcessedEvent @event)
+        public async Task<CommandHandlingResult> Handle(CashInProcessedEvent @event)
         {
-            var entity = Mapper.Map<Cashout>(@event);
+            var entity = Mapper.Map<Cashin>(@event);
 
             if (!await _historyRecordsRepository.TryInsertAsync(entity))
-                _logger.Warning($"Skipped duplicated cashout record", context: new
+                _logger.Warning($"Skipped duplicated cashin record", context: new
                 {
                     id = @event.OperationId
                 });

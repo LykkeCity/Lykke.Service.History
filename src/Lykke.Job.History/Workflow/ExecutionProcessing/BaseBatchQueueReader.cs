@@ -8,7 +8,7 @@ using Lykke.Common.Log;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Lykke.Service.History.Workflow.ExecutionProcessing
+namespace Lykke.Job.History.Workflow.ExecutionProcessing
 {
     public abstract class BaseBatchQueueReader<T> : IDisposable
     {
@@ -94,7 +94,7 @@ namespace Lykke.Service.History.Workflow.ExecutionProcessing
         {
             var factory = new ConnectionFactory
             {
-                Uri = _connectionString
+                Uri = new Uri(_connectionString)
             };
 
             using (var connection = factory.CreateConnection())

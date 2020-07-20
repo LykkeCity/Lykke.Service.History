@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Common.Log;
 using Lykke.Common.Log;
@@ -10,7 +7,7 @@ using Lykke.Service.History.Contracts.Cqrs.Commands;
 using Lykke.Service.History.Contracts.Cqrs.Events;
 using Lykke.Service.History.Core.Domain.History;
 
-namespace Lykke.Service.History.Workflow.Handlers
+namespace Lykke.Job.History.Workflow.Handlers
 {
     public class ForwardWithdrawalCommandHandler
     {

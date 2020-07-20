@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Common.Log;
 using Lykke.Common.Log;
 using Lykke.RabbitMqBroker.Subscriber;
 using Lykke.Service.History.Core.Domain.History;
@@ -14,7 +11,7 @@ using Lykke.Service.PostProcessing.Contracts.Cqrs.Events;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Lykke.Service.History.Workflow.ExecutionProcessing
+namespace Lykke.Job.History.Workflow.ExecutionProcessing
 {
     public class OrderEventQueueReader : BaseBatchQueueReader<OrderEvent>
     {

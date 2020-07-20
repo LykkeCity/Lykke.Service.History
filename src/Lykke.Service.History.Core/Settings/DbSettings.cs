@@ -1,6 +1,6 @@
 ﻿using Lykke.SettingsReader.Attributes;
 
-namespace Lykke.Service.History.Settings
+namespace Lykke.Service.History.Core.Settings
 {
     public class DbSettings
     {

@@ -6,7 +6,7 @@ using Lykke.Common.Log;
 using Lykke.Cqrs;
 using Lykke.Service.History.Core.Domain.History;
 
-namespace Lykke.Service.History.Workflow.Projections
+namespace Lykke.Job.History.Workflow.Projections
 {
     public class TransactionHashProjection
     {

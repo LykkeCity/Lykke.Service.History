@@ -4,7 +4,7 @@ using AutoMapper;
 using Lykke.Service.History.Core.Domain.History;
 using Lykke.Service.PostProcessing.Contracts.Cqrs.Events;
 
-namespace Lykke.Service.History.AutoMapper
+namespace Lykke.Job.History.AutoMapper
 {
     public class CashTransferConverter : ITypeConverter<CashTransferProcessedEvent, IEnumerable<BaseHistoryRecord>>
     {
@@ -19,7 +19,7 @@ namespace Lykke.Service.History.AutoMapper
                 Timestamp = source.Timestamp,
                 AssetId = source.AssetId,
                 FeeSize = source.FromWalletId == source.FeeSourceWalletId ? source.FeeSize : null,
-                State = Core.Domain.Enums.HistoryState.Finished
+                State = Service.History.Core.Domain.Enums.HistoryState.Finished
             };
 
             yield return new Cashin
@@ -30,7 +30,7 @@ namespace Lykke.Service.History.AutoMapper
                 Timestamp = source.Timestamp,
                 AssetId = source.AssetId,
                 FeeSize = source.ToWalletId == source.FeeSourceWalletId ? source.FeeSize : null,
-                State = Core.Domain.Enums.HistoryState.Finished
+                State = Service.History.Core.Domain.Enums.HistoryState.Finished
             };
         }
     }

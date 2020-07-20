@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Lykke.SettingsReader.Attributes;
 
-namespace Lykke.Service.History.Settings
+namespace Lykke.Service.History.Core.Settings
 {
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class HistorySettings

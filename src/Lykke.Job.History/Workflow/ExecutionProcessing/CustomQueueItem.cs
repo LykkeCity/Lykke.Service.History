@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.Client;
 
-namespace Lykke.Service.History.Workflow.ExecutionProcessing
+namespace Lykke.Job.History.Workflow.ExecutionProcessing
 {
     public class CustomQueueItem<T>
     {
