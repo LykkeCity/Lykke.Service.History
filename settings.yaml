@@ -1,5 +1,5 @@
 HistoryService:
-    Db: 
+    Db:
         PostgresDataConnString:
             settings-key: HistoryService-PostgresDataConnString
         LogsConnString:
@@ -19,6 +19,9 @@ HistoryService:
         settings-key: HistoryService-PostgresOrdersBatchSize
         types:
             - Optional
+    WalletIdsToLog:
+        settings-key: HistoryService-WalletIdsToLog
+        types: [Optional, JsonArray]
 MonitoringServiceClient:
     MonitoringServiceUrl:
         settings-key: MonitoringServiceUrl
@@ -30,4 +33,3 @@ SlackNotifications:
                 - AzureTableStorage
         QueueName:
             settings-key: SlackQueueName
-   

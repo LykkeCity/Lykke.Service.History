@@ -10,7 +10,7 @@ using RabbitMQ.Client.Events;
 
 namespace Lykke.Job.History.Workflow.ExecutionProcessing
 {
-    public abstract class BaseBatchQueueReader<T> : IDisposable
+    public abstract class BaseBatchQueueReader<T>
     {
         private readonly TimeSpan _reconnectTimeoutSeconds = TimeSpan.FromSeconds(30);
         private readonly TimeSpan _timeoutBeforeStop = TimeSpan.FromSeconds(10);
@@ -22,23 +22,21 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
         private Task _queueReaderTask;
 
         protected readonly ILog Log;
+        protected readonly IReadOnlyList<string> WalletIds;
         protected ConcurrentQueue<CustomQueueItem<T>> Queue;
 
         protected BaseBatchQueueReader(
             ILogFactory logFactory,
             string connectionString,
             int prefetchCount,
-            int batchCount)
+            int batchCount,
+            IReadOnlyList<string> walletIds)
         {
             _connectionString = connectionString;
             _prefetchCount = prefetchCount;
             _batchCount = batchCount;
             Log = logFactory.CreateLog(this);
-        }
-
-        public void Dispose()
-        {
-            Stop();
+            WalletIds = walletIds;
         }
 
         public void Start()
@@ -50,9 +48,12 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
 
         public void Stop()
         {
+            Log.Info("Stopping  queue reader");
             _cancellationTokenSource.Cancel();
 
-            Task.WaitAny(_queueReaderTask, Task.Delay(_timeoutBeforeStop));
+            int index = Task.WaitAny(_queueReaderTask, Task.Delay(_timeoutBeforeStop));
+
+            Log.Info(index == 0 ? "Queue reader stopped" : $"Unable to stop queue reader within {_timeoutBeforeStop.TotalSeconds} seconds.");
         }
 
         protected abstract string ExchangeName { get; }
@@ -64,6 +65,7 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
         protected abstract EventHandler<BasicDeliverEventArgs> CreateOnMessageReceivedEventHandler(IModel channel);
 
         protected abstract Task ProcessBatch(IList<CustomQueueItem<T>> batch);
+        protected abstract void LogQueue();
 
         private async Task StartRabbitSessionWithReconnects()
         {
@@ -120,10 +122,16 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
 
                 await writerTask;
 
-                Queue.Clear();
-
                 channel.BasicCancel(tag);
                 connection.Close();
+
+                if (Queue.Count > 0)
+                {
+                    Log.Warning("Queue is not empty on shutdown!");
+                    LogQueue();
+                }
+
+                Queue.Clear();
             }
         }
 
@@ -155,7 +163,7 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
                     {
                         exceptionThrowed = true;
 
-                        Log.Error(e);
+                        Log.Error(e, "Error processing batch");
 
                         foreach (var item in list)
                             item.Reject();
