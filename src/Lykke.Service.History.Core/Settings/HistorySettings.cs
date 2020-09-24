@@ -1,4 +1,6 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using Lykke.SettingsReader.Attributes;
 
 namespace Lykke.Service.History.Core.Settings
@@ -15,5 +17,8 @@ namespace Lykke.Service.History.Core.Settings
 
         [Optional]
         public int PostgresOrdersBatchSize { get; set; } = 100;
+
+        [Optional]
+        public IReadOnlyList<string> WalletIdsToLog { get; set; } = Array.Empty<string>();
     }
 }

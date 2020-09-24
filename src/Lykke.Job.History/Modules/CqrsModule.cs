@@ -49,15 +49,18 @@ namespace Lykke.Job.History.Modules
             var rabbitMqEndpoint = rabbitMqSettings.Endpoint.ToString();
 
             builder.RegisterType<StartupManager>().As<IStartupManager>();
+            builder.RegisterType<ShutdownManager>().As<IShutdownManager>();
 
             builder.RegisterType<ExecutionQueueReader>()
                 .WithParameter(TypedParameter.From(_settings.Cqrs.RabbitConnString))
+                .WithParameter(TypedParameter.From(_settings.WalletIdsToLog))
                 .WithParameter(new NamedParameter("prefetchCount", _settings.RabbitPrefetchCount))
                 .WithParameter(new NamedParameter("batchCount", _settings.PostgresOrdersBatchSize))
                 .SingleInstance();
 
             builder.RegisterType<OrderEventQueueReader>()
                 .WithParameter(TypedParameter.From(_settings.Cqrs.RabbitConnString))
+                .WithParameter(TypedParameter.From(_settings.WalletIdsToLog))
                 .WithParameter(new NamedParameter("prefetchCount", _settings.RabbitPrefetchCount))
                 .WithParameter(new NamedParameter("batchCount", _settings.PostgresOrdersBatchSize))
                 .SingleInstance();

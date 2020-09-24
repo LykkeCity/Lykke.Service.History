@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Common;
 using Lykke.Common.Log;
 using Lykke.RabbitMqBroker.Subscriber;
 using Lykke.Service.History.Core.Domain.History;
@@ -22,8 +23,9 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
             string connectionString,
             IHistoryRecordsRepository historyRecordsRepository,
             int prefetchCount,
-            int batchCount)
-            : base(logFactory, connectionString, prefetchCount, batchCount)
+            int batchCount,
+            IReadOnlyList<string> walletIds)
+            : base(logFactory, connectionString, prefetchCount, batchCount, walletIds)
         {
             _historyRecordsRepository = historyRecordsRepository;
         }
@@ -78,6 +80,19 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
             var operation = TelemetryHelper.InitTelemetryOperation($"Processing OrderEvents", Guid.NewGuid().ToString());
             await _historyRecordsRepository.InsertBulkAsync(batch.Select(x => x.Value));
             TelemetryHelper.SubmitOperationResult(operation);
+        }
+
+        protected override void LogQueue()
+        {
+            while (Queue.Count > 0)
+            {
+                if (Queue.TryDequeue(out var item))
+                {
+                    var order = new {orderId = item.Value.Id, item.Value.Status}.ToJson();
+
+                    Log.Info("Orders in queue on shutdown", context: order);
+                }
+            }
         }
     }
 }

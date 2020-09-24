@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Common;
 using Lykke.Common.Log;
 using Lykke.RabbitMqBroker.Subscriber;
 using Lykke.Service.History.Core.Domain.History;
@@ -28,8 +29,9 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
             IHistoryRecordsRepository historyRecordsRepository,
             IOrdersRepository ordersRepository,
             int prefetchCount,
-            int batchCount)
-            : base(logFactory, connectionString, prefetchCount, batchCount)
+            int batchCount,
+            IReadOnlyList<string> walletIds)
+            : base(logFactory, connectionString, prefetchCount, batchCount, walletIds)
         {
             _historyRecordsRepository = historyRecordsRepository;
             _ordersRepository = ordersRepository;
@@ -51,7 +53,14 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
                 {
                     var message = deserializer.Deserialize(basicDeliverEventArgs.Body);
 
-                    Queue.Enqueue(new CustomQueueItem<IEnumerable<Order>>(Mapper.Map<IEnumerable<Order>>(message),
+                    var orders = Mapper.Map<IEnumerable<Order>>(message).ToList();
+
+                    foreach (var order in orders.Where(x => WalletIds.Contains(x.WalletId.ToString())))
+                    {
+                        Log.Info("Order from ME (ExecutionProcessedEvent)", context: new {orderId = order.Id, status = order.Status, order.SequenceNumber}.ToJson());
+                    }
+
+                    Queue.Enqueue(new CustomQueueItem<IEnumerable<Order>>(orders,
                         basicDeliverEventArgs.DeliveryTag, channel));
                 }
                 catch (Exception e)
@@ -69,6 +78,12 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
         {
             var operation = TelemetryHelper.InitTelemetryOperation("Processing orders from ExecutionProcessedEvent", Guid.NewGuid().ToString());
             var orders = batch.SelectMany(x => x.Value).ToList();
+            var batchId = Guid.NewGuid().ToString();
+
+            foreach (var order in orders.Where(x => WalletIds.Contains(x.WalletId.ToString())))
+            {
+                Log.Info("Saving order (ProcessBatch)", context: new {orderId = order.Id, status = order.Status, order.SequenceNumber, batchId}.ToJson());
+            }
 
             await _ordersRepository.UpsertBulkAsync(orders);
 
@@ -80,6 +95,20 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
                 await _historyRecordsRepository.InsertBulkAsync(tradesBatch);
 
             TelemetryHelper.SubmitOperationResult(operation);
+        }
+
+        protected override void LogQueue()
+        {
+            while (Queue.Count > 0)
+            {
+                if (Queue.TryDequeue(out var item))
+                {
+                    var orders = item.Value.Select(x => new {orderId = x.Id, x.Status, x.SequenceNumber}).ToList()
+                        .ToJson();
+
+                    Log.Info("Orders in queue on shutdown", context: orders);
+                }
+            }
         }
     }
 }
