@@ -94,5 +94,18 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
                 }
             }
         }
+
+        protected override void LogQueue()
+        {
+            while (Queue.Count > 0)
+            {
+                if (Queue.TryDequeue(out var item))
+                {
+                    var order = new {item.Value.Id, item.Value.Status}.ToJson();
+
+                    Log.Info("Orders in queue on shutdown", context: order);
+                }
+            }
+        }
     }
 }
