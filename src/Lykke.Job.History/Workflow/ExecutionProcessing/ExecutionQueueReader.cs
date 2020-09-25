@@ -57,7 +57,7 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
 
                     foreach (var order in orders.Where(x => WalletIds.Contains(x.WalletId.ToString())))
                     {
-                        Log.Info("Order from ME (ExecutionProcessedEvent)", context: new {order.Id, order.Status, order.SequenceNumber}.ToJson());
+                        Log.Info("Order from ME (ExecutionProcessedEvent)", context: $"order: {new {order.Id, order.Status, order.SequenceNumber}.ToJson()}");
                     }
 
                     Queue.Enqueue(new CustomQueueItem<IEnumerable<Order>>(orders,
@@ -82,7 +82,7 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
 
             foreach (var order in orders.Where(x => WalletIds.Contains(x.WalletId.ToString())))
             {
-                Log.Info("Saving order (ProcessBatch)", context: new {order.Id, order.Status, order.SequenceNumber, batchId}.ToJson());
+                Log.Info("Saving order (ProcessBatch)", context: $"order: {new {order.Id, order.Status, order.SequenceNumber, batchId}.ToJson()}");
             }
 
             await _ordersRepository.UpsertBulkAsync(orders);
@@ -106,7 +106,7 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
                     var orders = item.Value.Select(x => new {x.Id, x.Status, x.SequenceNumber}).ToList()
                         .ToJson();
 
-                    Log.Info("Orders in queue on shutdown", context: orders);
+                    Log.Info("Orders in queue on shutdown", context: $"orders: {orders}");
                 }
             }
         }

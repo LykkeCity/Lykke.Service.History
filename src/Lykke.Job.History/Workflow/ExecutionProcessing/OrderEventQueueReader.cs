@@ -88,7 +88,7 @@ namespace Lykke.Job.History.Workflow.ExecutionProcessing
             {
                 if (Queue.TryDequeue(out var item))
                 {
-                    var order = new {orderId = item.Value.Id, item.Value.Status}.ToJson();
+                    var order = $"order: {new {item.Value.Id, item.Value.Status}.ToJson()}";
 
                     Log.Info("Orders in queue on shutdown", context: order);
                 }
