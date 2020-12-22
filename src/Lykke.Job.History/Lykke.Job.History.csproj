@@ -29,6 +29,7 @@
     <PackageReference Include="Lykke.Job.BlockchainCashinDetector.Contract" Version="1.1.1" />
     <PackageReference Include="Lykke.Job.BlockchainCashoutProcessor.Contract" Version="6.0.1" />
     <PackageReference Include="Lykke.Job.EthereumCore.Contracts" Version="1.2.0" />
+    <PackageReference Include="Lykke.Job.SiriusCashoutProcessor.Contract" Version="1.0.0" />
     <PackageReference Include="Lykke.Job.SiriusDepositsDetector.Contract" Version="1.0.0" />
     <PackageReference Include="Lykke.Messaging" Version="6.3.1" />
     <PackageReference Include="Lykke.Messaging.RabbitMq" Version="2.2.2" />

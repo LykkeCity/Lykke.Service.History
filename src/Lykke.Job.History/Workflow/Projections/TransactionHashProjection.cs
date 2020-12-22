@@ -129,6 +129,28 @@ namespace Lykke.Job.History.Workflow.Projections
         }
 
         /// <summary>
+        ///     Sirius cashout event
+        /// </summary>
+        /// <param name="event"></param>
+        /// <returns></returns>
+        public async Task<CommandHandlingResult> Handle(
+            Job.SiriusCashoutProcessor.Contract.Events.CashoutCompletedEvent @event)
+        {
+            if (!await _historyRecordsRepository.UpdateBlockchainHashAsync(@event.OperationId, @event.TransactionHash))
+            {
+                _logger.Warning($"Transaction hash was not set", context: new
+                {
+                    id = @event.OperationId,
+                    hash = @event.TransactionHash
+                });
+
+                return CommandHandlingResult.Fail(TimeSpan.FromMinutes(1));
+            }
+
+            return CommandHandlingResult.Ok();
+        }
+
+        /// <summary>
         ///     BIL batched cashout event
         /// </summary>
         /// <param name="event"></param>
