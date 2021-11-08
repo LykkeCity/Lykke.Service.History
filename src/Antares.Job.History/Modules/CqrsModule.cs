@@ -100,7 +100,7 @@ namespace Antares.Job.History.Modules
                             }),
                         new RabbitMqTransportFactory(logFactory));
                     var cqrsEngine = CreateEngine(ctx, messagingEngine, logFactory);
-                    
+
                     if (_settings.CqrsEnabled)
                         cqrsEngine.StartPublishers();
 
@@ -136,6 +136,7 @@ namespace Antares.Job.History.Modules
                 Register.DefaultEndpointResolver(sagasProtobufEndpointResolver),
 
                 Register.EventInterceptors(new DefaultEventLoggingInterceptor(ctx.Resolve<ILogFactory>())),
+                Register.CommandInterceptors(new DefaultCommandLoggingInterceptor(ctx.Resolve<ILogFactory>())),
 
                 Register.BoundedContext(HistoryBoundedContext.Name)
 
