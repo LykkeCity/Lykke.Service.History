@@ -104,7 +104,18 @@ namespace Antares.Job.History.Workflow.ExecutionProcessing
             {
                 channel.BasicQos(0, (ushort)_prefetchCount, false);
 
-                channel.QueueDeclare(QueueName, true, false, false);
+                // see https://www.rabbitmq.com/dlx.html
+                var dlxName = $"{QueueName}-dlx";
+                var poisonQueueName = $"{QueueName}-poison";
+                var args = new Dictionary<string, object>
+                {
+                    { "x-dead-letter-exchange", dlxName }
+                };
+                channel.ExchangeDeclare(dlxName, type: "direct", durable: true);
+                channel.QueueDeclare(poisonQueueName, durable: true, exclusive: false, autoDelete: false);
+                channel.QueueBind(poisonQueueName, exchange: $"{QueueName}-dlx", routingKey: string.Empty);
+
+                channel.QueueDeclare(QueueName, durable: true, exclusive: false, autoDelete: false);
 
                 foreach (var key in RoutingKeys)
                     channel.QueueBind(QueueName, ExchangeName, key);

@@ -29,7 +29,7 @@ namespace Antares.Job.History.Workflow.Projections
         {
             if (!await _historyRecordsRepository.UpdateBlockchainHashAsync(@event.OperationId, @event.TxHash))
             {
-                _logger.Warning($"Transaction hash was not set", context: new
+                _logger.Warning($"Bitcoin cashin hash was not set", context: new
                 {
                     id = @event.OperationId,
                     hash = @event.TxHash
@@ -50,7 +50,7 @@ namespace Antares.Job.History.Workflow.Projections
         {
             if (!await _historyRecordsRepository.UpdateBlockchainHashAsync(@event.OperationId, @event.TxHash))
             {
-                _logger.Warning($"Transaction hash was not set", context: new
+                _logger.Warning($"Bitcoin cashout hash was not set", context: new
                 {
                     id = @event.OperationId,
                     hash = @event.TxHash
@@ -72,7 +72,7 @@ namespace Antares.Job.History.Workflow.Projections
         {
             if (!await _historyRecordsRepository.UpdateBlockchainHashAsync(@event.OperationId, @event.TransactionHash))
             {
-                _logger.Warning($"Transaction hash was not set", context: new
+                _logger.Warning($"BIL cashin hash was not set", context: new
                 {
                     id = @event.OperationId,
                     hash = @event.TransactionHash
@@ -94,7 +94,7 @@ namespace Antares.Job.History.Workflow.Projections
         {
             if (!await _historyRecordsRepository.UpdateBlockchainHashAsync(@event.OperationId, @event.TransactionHash))
             {
-                _logger.Warning($"Transaction hash was not set", context: new
+                _logger.Warning($"Sirius cashin hash was not set", context: new
                 {
                     id = @event.OperationId,
                     hash = @event.TransactionHash
@@ -116,7 +116,7 @@ namespace Antares.Job.History.Workflow.Projections
         {
             if (!await _historyRecordsRepository.UpdateBlockchainHashAsync(@event.OperationId, @event.TransactionHash))
             {
-                _logger.Warning($"Transaction hash was not set", context: new
+                _logger.Warning($"BIL cashout hash was not set", context: new
                 {
                     id = @event.OperationId,
                     hash = @event.TransactionHash
@@ -138,7 +138,7 @@ namespace Antares.Job.History.Workflow.Projections
         {
             if (!await _historyRecordsRepository.UpdateBlockchainHashAsync(@event.OperationId, @event.TransactionHash))
             {
-                _logger.Warning($"Transaction hash was not set", context: new
+                _logger.Warning($"Sirius cashout hash was not set", context: new
                 {
                     id = @event.OperationId,
                     hash = @event.TransactionHash
@@ -170,7 +170,7 @@ namespace Antares.Job.History.Workflow.Projections
                 if (!await _historyRecordsRepository.UpdateBlockchainHashAsync(cashout.OperationId,
                     @event.TransactionHash))
                 {
-                    _logger.Warning($"Transaction hash was not set, BIL cashout", context: new
+                    _logger.Warning($"BIL batch transaction hash was not set", context: new
                     {
                         id = cashout.OperationId,
                         hash = @event.TransactionHash
@@ -194,7 +194,7 @@ namespace Antares.Job.History.Workflow.Projections
             if (!await _historyRecordsRepository.UpdateBlockchainHashAsync(@event.OperationId,
                 _crossClientTransactionHashSubstituition))
             {
-                _logger.Warning($"Transaction hash was not set. " +
+                _logger.Warning($"BIL cross-client cashout hash was not set. " +
                                 $"OperationId: {@event.OperationId}, " +
                                 $"TxHash: {_crossClientTransactionHashSubstituition}", context: new
                                 {
@@ -208,7 +208,7 @@ namespace Antares.Job.History.Workflow.Projections
             if (!await _historyRecordsRepository.UpdateBlockchainHashAsync(@event.CashinOperationId,
                 _crossClientTransactionHashSubstituition))
             {
-                _logger.Warning($"Transaction cashin hash was not set. " +
+                _logger.Warning($"BIL cross-client cashin hash was not set. " +
                                 $"OperationId: {@event.OperationId}, " +
                                 $"TxHash: {_crossClientTransactionHashSubstituition}", context: new
                 {
