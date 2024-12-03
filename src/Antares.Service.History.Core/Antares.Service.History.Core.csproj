@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Antares.Service.History.Core</AssemblyName>
+    <RootNamespace>Antares.Service.History.Core</RootNamespace>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Antares.Sdk" Version="1.1.0-beta.4" />
+    <PackageReference Include="Lykke.Common" Version="7.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+</Project>

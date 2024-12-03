@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\client\Antares.Service.History.GrpcClient\Antares.Service.History.GrpcClient.csproj" />
+    <ProjectReference Include="..\..\client\Antares.Service.History.GrpcContract\Antares.Service.History.GrpcContract.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,25 @@
+{
+  "profiles": {
+    "History local test settings": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "SettingsUrl": "http://settingsv2.lykke-settings.svc.cluster.local/Home/RepositoryFile/c96b7a34-b21f-49b9-8b29-9c3cd395b584/Antares.Service.History",
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      }
+    },
+    "History local dev settings": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ENV_INFO": "home",
+        "SettingsUrl": "http://settingsv2.lykke-settings.svc.cluster.local/Home/RepositoryFile/79ab4c5c-fae6-480a-8742-d9b233addfd2/Lykke.Service.History",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "History remote settings": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "SettingsUrl": "http://settings.lykke-settings.svc.cluster.local/your_token_HistoryJob"
+      }
+    }
+  }
+}

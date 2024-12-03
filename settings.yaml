@@ -22,6 +22,22 @@ HistoryService:
     WalletIdsToLog:
         settings-key: HistoryService-WalletIdsToLog
         types: [Optional, JsonArray]
+    MatchingEngineRabbit:
+        ConnectionString:
+            settings-key: MatchingEngineRabbitMqConnectionString
+            types:
+                - RabbitMq
+        AlternativeConnectionString:
+            settings-key: AlternateMatchingEngineRabbitMqConnectionString
+            types:
+                - RabbitMq
+                - Optional
+        Exchange:
+            settings-key: MatchingEngineSpotEventsExchange
+    CqrsEnabled:
+        settings-key: HistoryService-CqrsEnabled
+        types:
+            - Optional
 MonitoringServiceClient:
     MonitoringServiceUrl:
         settings-key: MonitoringServiceUrl

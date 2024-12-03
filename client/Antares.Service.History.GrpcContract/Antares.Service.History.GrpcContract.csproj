@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Antares.Service.History.GrpcContract</AssemblyName>
+    <PackageId>Antares.Service.History.GrpcContract</PackageId>
+    <RootNamespace>Antares.Service.History.GrpcContract</RootNamespace>
+    <Authors>Swisschain</Authors>
+    <Product>Sirius</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="common.proto" />
+    <None Remove="history.proto" />
+    <None Remove="isalive.proto" />
+    <None Remove="orders.proto" />
+    <None Remove="trades.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.Core" Version="2.35.0" />
+    <PackageReference Include="Grpc.Reflection" Version="2.35.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.35.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="protobuf-net" Version="3.0.73" />
+    <PackageReference Include="Swisschain.Extensions.Grpc.Abstractions" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="orders.proto" />
+    <Protobuf Include="trades.proto" />
+    <Protobuf Include="history.proto" />
+    <Protobuf Include="common.proto" />
+    <Protobuf Include="isalive.proto" />
+  </ItemGroup>
+
+</Project>

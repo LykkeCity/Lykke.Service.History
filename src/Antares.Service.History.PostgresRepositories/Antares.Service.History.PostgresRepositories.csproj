@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Antares.Service.History.PostgresRepositories</AssemblyName>
+    <RootNamespace>Antares.Service.History.PostgresRepositories</RootNamespace>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="Npgsql" Version="5.0.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
+    <PackageReference Include="PostgreSQLCopyHelper" Version="2.8.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Antares.Service.History.Core\Antares.Service.History.Core.csproj" />
+  </ItemGroup>
+</Project>

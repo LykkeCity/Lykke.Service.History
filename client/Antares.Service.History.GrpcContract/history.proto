@@ -1,0 +1,40 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Antares.Service.History.GrpcContract.History";
+
+import "common.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+package antares.service.history.history;
+
+service History {
+  rpc GetHistory (HistoryGetHistoryRequest) returns (HistoryGetHistoryResponse);
+
+  rpc GetHistoryItem (GetHistoryItemRequest) returns (GetHistoryItemResponse);
+}
+
+message GetHistoryItemRequest {
+  string wallet_id = 1;
+  string id = 2;
+}
+
+message HistoryGetHistoryRequest {
+  string wallet_id = 1;
+  repeated antares.service.history.common.HistoryType type = 2;
+  google.protobuf.StringValue asset_id = 3;
+  google.protobuf.StringValue asset_pair_id = 4;
+  antares.service.history.common.PaginationInt32 pagination = 5;
+  google.protobuf.Timestamp from = 6;
+  google.protobuf.Timestamp to = 7;
+}
+
+message GetHistoryItemResponse {
+  antares.service.history.common.HistoryResponseItem item = 1;
+}
+
+message HistoryGetHistoryResponse {
+  repeated antares.service.history.common.HistoryResponseItem items = 1;
+
+  antares.service.history.common.PaginatedInt32Response pagination = 2;
+}

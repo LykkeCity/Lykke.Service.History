@@ -1,0 +1,118 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Antares.Service.History.GrpcContract.Orders";
+
+import "common.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+package antares.service.history.orders;
+
+service Orders {
+  rpc GetOrder (GetOrderRequest) returns (GetOrderResponse);
+
+  rpc GetOrderList (GetOrderListRequest) returns (GetOrderListResponse);
+
+  rpc GetOrdersByDates (GetOrdersByDatesRequest) returns (GetOrderListResponse);
+
+  rpc GetActiveOrders (GetActiveOrdersRequest) returns (GetOrderListResponse);
+}
+
+message GetOrderRequest {
+    string id = 1;
+}
+
+message GetOrderResponse {
+  .antares.service.history.orders.OrderModel item = 1;
+}
+
+message GetOrderListResponse {
+  antares.service.history.common.PaginatedInt32Response pagination = 1;
+
+  repeated .antares.service.history.orders.OrderModel items = 2;
+}
+
+message GetOrderListRequest {
+  string wallet_id = 1;
+  repeated antares.service.history.common.OrderStatus status = 2;
+  repeated OrderType type = 3;
+  google.protobuf.StringValue asset_pair_id = 4;
+  antares.service.history.common.PaginationInt32 pagination = 5;
+}
+
+message GetOrdersByDatesRequest {
+  antares.service.history.common.PaginationInt32 pagination = 1;
+  google.protobuf.Timestamp from = 2;
+  google.protobuf.Timestamp to = 3;
+}
+
+message GetActiveOrdersRequest {
+  string wallet_id = 1;
+  google.protobuf.StringValue asset_pair_id = 2;
+  antares.service.history.common.PaginationInt32 pagination = 3;
+}
+
+message GetHistoryItemResponse {
+  antares.service.history.common.HistoryResponseItem item = 1;
+}
+
+message GetTradesResponse {
+  repeated antares.service.history.common.HistoryResponseItem items = 1;
+
+  antares.service.history.common.PaginatedInt32Response pagination = 2;
+}
+
+enum OrderType {
+  UNKNOWN_TYPE = 0;
+  MARKET = 1;
+  LIMIT = 2;
+  STOP_LIMIT = 3;
+}
+
+enum OrderSide {
+  UNKNOWN = 0;
+  BUY = 1;
+  SELL = 2;
+}
+
+message OrderModel {
+  string id = 1;
+
+  string matching_id = 2;
+
+  string wallet_id = 3;
+
+  OrderType type = 4;
+
+  OrderSide side = 5;
+
+  antares.service.history.common.OrderStatus status = 6;
+
+  string asset_pair_id = 7;
+
+  antares.service.history.common.BigDecimal volume = 8;
+
+  antares.service.history.common.BigDecimal price = 9;
+
+  google.protobuf.Timestamp create_dt = 10;
+
+  google.protobuf.Timestamp register_dt = 11;
+
+  google.protobuf.Timestamp status_dt = 12;
+
+  google.protobuf.Timestamp match_dt = 13;
+
+  antares.service.history.common.BigDecimal remaining_volume = 14;
+
+  google.protobuf.StringValue RejectReason = 15;
+
+  antares.service.history.common.BigDecimal lower_limit_price = 16;
+
+  antares.service.history.common.BigDecimal lower_price = 17;
+
+  antares.service.history.common.BigDecimal upper_limit_price = 18;
+
+  antares.service.history.common.BigDecimal upper_price = 19;
+
+  bool straight  = 20;
+}

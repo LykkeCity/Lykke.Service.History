@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Lykke.Cqrs" Version="9.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="Moq" Version="4.16.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Antares.Job.History\Antares.Job.History.csproj" />
+    <ProjectReference Include="..\..\src\Antares.Service.History.Core\Antares.Service.History.Core.csproj" />
+    <ProjectReference Include="..\..\src\Antares.Service.History.PostgresRepositories\Antares.Service.History.PostgresRepositories.csproj" />
+    <ProjectReference Include="..\..\src\Antares.Service.History.Services\Antares.Service.History.Services.csproj" />
+    <ProjectReference Include="..\..\src\Antares.Service.History\Antares.Service.History.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AssemblyName>Lykke.Service.History.Services</AssemblyName>
-    <RootNamespace>Lykke.Service.History.Services</RootNamespace>
-    <Version>1.0.0</Version>
-  </PropertyGroup>
-</Project>

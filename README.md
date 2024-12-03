@@ -1,4 +1,4 @@
-# Lykke.Service.History 
+# Antares.Service.History 
 
 # Purpose
 
@@ -6,13 +6,13 @@
 
 # Contracts
 
-Input (v1, Lykke.Service.PostProcessing events; RabbitMQ, protobuf):
+Input (v1, Antares.Service.PostProcessing events; RabbitMQ, protobuf):
   - CashInProcessedEvent, CashOutProcessedEvent, CashTransferProcessedEvent, ExecutionProcessedEvent, OrderPlacedEvent, OrderCancelledEvent.
 
-Input (v2, Lykke.Service.BlockchainCashinDetector; RabbitMQ, messagepack):
+Input (v2, Antares.Service.BlockchainCashinDetector; RabbitMQ, messagepack):
   - CashinCompletedEvent.
   
-Input (v3, Lykke.Service.BlockchainCashoutProcessor; RabbitMQ, messagepack):
+Input (v3, Antares.Service.BlockchainCashoutProcessor; RabbitMQ, messagepack):
   - CashoutCompletedEvent.
   
 Input (v4, bitcoinservice; RabbitMQ, messagepack):
@@ -47,4 +47,4 @@ Output (HTTP):
   - RabbitMQ (Cqrs);
 
 # Service owners
-Core team
+Swisschain team

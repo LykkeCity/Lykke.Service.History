@@ -337,3 +337,4 @@ ASALocalRun/
 
 appsettings.*.json
 /client/**/*.xml
+**/Properties/launchSettings.json
